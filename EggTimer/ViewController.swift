@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
@@ -18,6 +19,8 @@ class ViewController: UIViewController {
     var secondsPassed : Float = 0
     
     var timer = Timer()
+    
+    var player : AVAudioPlayer!
     
     @IBAction func hardnessSelected(_ sender: UIButton) {
         timer.invalidate()
@@ -40,8 +43,15 @@ class ViewController: UIViewController {
         else {
             timer.invalidate()
             titleLabel.text = "DONE!"
+            playSound()
         }
         let percentageProgress : Float = secondsPassed / totalTime
         progressBar.progress = percentageProgress
+    }
+    
+    func playSound() {
+        let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player.play()
     }
 }
